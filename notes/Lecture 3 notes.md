@@ -97,7 +97,7 @@
 
 
 # Фреймворк - Mockito
-[статья](https://habr.com/ru/articles/444982/)
+[статья 1](https://habr.com/ru/articles/444982/), [статья 2](https://www.vogella.com/tutorials/Mockito/article.html)
 
 1. Создание **mock** класса *DataService*:
     ```
