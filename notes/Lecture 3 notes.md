@@ -99,6 +99,8 @@
 # Фреймворк - Mockito
 [статья 1](https://habr.com/ru/articles/444982/), [статья 2](https://www.vogella.com/tutorials/Mockito/article.html)
 
+**Mokito** - фрейворк для упрощения тестирования (result testing & behavior testing) программных компонентов с внешними [зависимостями](https://habr.com/ru/articles/349836/)
+
 1. Создание **mock** класса *DataService*:
     ```
         DataService dataServiceMock = Mockito.mock(DataService.class);
@@ -108,11 +110,36 @@
     + dataServiceMock.getClass() — DataService.class
     + Для такого **mock** сразу после создания характерно некое поведение по умолчанию - все методы обычно возвращают:
         + **null** - для ссылочных(объетных) типов
-        + **0** - для примитивных типов
+        + **0** - для числовых примитивных типов
+        + **false** - для boolean
         + **Пустую коллекцию** - если возвращаемый тип - коллекция 
 
+    Альтернативный способ через аннотации:
+    ```
+        // demonstrates the return of multiple values
+        @ExtendWith(MockitoExtension.class)
+        class ServiceDatabaseIdTest {
 
-2. Управление поведением
+            @Mock
+            Database databaseMock;
+        }
+    ```
+
+    Аннотация **@Mock** может так же использоваться для параметров методов:
+    ```
+        // this test demonstrates how to return values based on the input
+        // and that @Mock can also be used for a method parameter
+        @Test
+        void testReturnValueDependentOnMethodParameter(@Mock Comparable<String> c)  {
+                when(c.compareTo("Mockito")).thenReturn(1);
+                when(c.compareTo("Eclipse")).thenReturn(2);
+                //assert
+                assertEquals(1, c.compareTo("Mockito"));
+                assertEquals(2, c.compareTo("Eclipse"));
+        }
+    ```
+    
+3. Управление поведением
     ```
         List<String> data = new ArrayList<>();
         data.add("dataItem");
@@ -120,7 +147,7 @@
     ```
     После этой операции, вызвав у объекта *dataService* метод *getAllData()*, получу объект, заданный в первой строчке листинга - *data*. Для одного и того же метода можно задать поведение несколько раз с разными требованиями к аргументам, и все определённые таким образом модели поведения будут действовать одновременно. При пересечении приоритет у того определения, что было задано позже.
 
-    + Если нужно задать реакцию на любой вызов этого метода независимо от аргументов, нужно воспользоваться методом ***Mockito.any()***:
+    + Если нужно задать реакцию на любой вызов этого метода независимо от аргументов, нужно воспользоваться методом ***Mockito.any()*** (***anyString()***, ***anyInt()***):
         ```
             Mockito.when(dataService.getDataItemById(any())).thenReturn("dataItem");   
         ```
@@ -138,9 +165,35 @@
                 Mockito.argThat(arg -> arg == null || arg.length() > 5)))
            .thenReturn("dataItem");
         ```
-3. Задание результатов вызова
+4. Задание результатов вызова
+Если указывается более одного возвращаемого значения, они возвращаются в порядке указания, пока не будет использовано последнее.
+После этого возвращается последнее указанное значение.
+    ```
+    @Test
+        void testMoreThanOneReturnValue() {
+            when(i.next()).thenReturn("Mockito").thenReturn("rocks");
+            String result = i.next() + " " + i.next();
+            // assert
+            assertEquals("Mockito rocks", result);
+        }
+    ```
     + **.thenReturn(object);** - в случе, если нужно вернуть примитивный тип, будет происходить *un/boxing*
     + **.thenThrow(new IllegalArgumentException());**
+        ```
+            // demonstrates the configuration of a throws with Mockito
+            // not a read test, just "testing" Mockito behavior
+            @Test
+            void testMockitoThrows() {
+                Properties properties = Mockito.mock(Properties.class);
+
+                when(properties.get(Mockito.anyString())).thenThrow(new IllegalArgumentException("Stuff"));
+
+                Throwable exception = assertThrows(IllegalArgumentException.class, () -> properties.get("A"));
+
+                assertEquals("Stuff", exception.getMessage());
+            }
+        ```
     + **.thenThrow(IllegalArgumentException.class);**
     + **.thenAnswer** (пока не рассматривал)
-...
+   
+
