@@ -3,8 +3,8 @@ package main.task_1;
 import java.util.function.UnaryOperator;
 
 public class Cosine implements UnaryOperator<Double> {
-    private final double precision;         // The maximum absolute error of the approximations
-    private final double decimal_places;
+    private double precision;         // The maximum absolute error of the approximations
+    private double decimal_places;
 
     /* The number of decimal places that the result will be rounded to. */
     public Cosine(int decimal_places) {
@@ -16,12 +16,14 @@ public class Cosine implements UnaryOperator<Double> {
         this.precision = 1/Math.pow(10D, decimal_places);
     }
 
+    public Cosine() {}
+
     @Override
     public Double apply(Double x) {
         double partial_sum = 0;
         double term = 1;
 
-        if (null == x) {
+        if (null == x || x.isInfinite() || x.isNaN()) {
             return null;
         }
 
@@ -58,5 +60,15 @@ public class Cosine implements UnaryOperator<Double> {
 
     public double getDecimal_places() {
         return decimal_places;
+    }
+
+
+    public void setDecimal_places(double decimal_places) {
+        if (decimal_places < 0) {
+            decimal_places = 0;
+        }
+
+        this.decimal_places = decimal_places;
+        this.precision = 1/Math.pow(10D, decimal_places);
     }
 }
