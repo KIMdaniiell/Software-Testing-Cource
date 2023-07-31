@@ -11,6 +11,12 @@ public class ComparableUnit implements Comparable<ComparableUnit>{
         this.priority = priority;
     }
 
+    public ComparableUnit(int priority) {
+        this.name = "CU[" + priority + "]";
+        this.priority = priority;
+    }
+
+
     @Override
     public int compareTo(ComparableUnit o) {
         return this.priority - o.priority;
