@@ -1,6 +1,8 @@
 package test.task_3;
 
 import main.task_3.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +11,63 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 class DomainModelTest {
+    Actor ford;
+    Actor fish ;
+    Actor arthur;
+
+    State disgust;
+    State fright;
+    State surprise;
+
+    Interaction tap;
+    Interaction slide;
+
+    @BeforeEach
+    public void createAll() {
+        arthur  = new Actor("Артур");
+        ford = new Actor("Форд");
+        fish = new Actor("Рыбка");
+
+        disgust = new State("отвращение");
+        fright = new State("ужас");
+        surprise = new State("удивление");
+
+        tap = new Interaction("хлопнуть по уху");
+        slide = new Interaction("проскользнуть в слуховой канал");
+    }
+
+    @Test
+    @DisplayName("Test Arthur tapping Ford")
+    void testTapping() {
+        tap.setSource(arthur);
+        tap.setTarget(ford);
+        assertEquals("[Артур] -> хлопнуть по уху -> [Форд]\n", tap.make());
+    }
+
+    @Test
+    @DisplayName("Test Arthur change state after tapping")
+    void testTappingStateChange() {
+        tap.setSource(arthur);
+        tap.setTarget(ford);
+        tap.setState(disgust);
+        assertEquals("[Артур] -> хлопнуть по уху -> [Форд]\n" +
+                "[Форд] -> (отвращение)\n", tap.make());
+    }
+
+    @Test
+    @DisplayName("Test state sequence change after fish slides")
+    void testStateSequenceChange() {
+        fright.setNext(surprise);
+        slide.setState(fright);
+        slide.setSource(fish);
+        slide.setTarget(ford);
+
+        assertEquals("[Рыбка] -> проскользнуть в слуховой канал -> [Форд]\n" +
+                "[Форд] -> (ужас)\n" +
+                "[Форд] (ужас) -> (удивление)\n", slide.make());
+    }
+
+
     @Test
     @DisplayName("Instantiating domain model State class")
     void instantiateStateClass() {
