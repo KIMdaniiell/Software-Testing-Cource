@@ -1,34 +1,58 @@
 package test.task_2;
 
+import main.task_1.Cosine;
 import main.task_2.ComparableUnit;
 import main.task_2.QuickSort;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class QuickSortTest {
+    ArrayList<ComparableUnit> array;
+    ArrayList<ComparableUnit> sorted_array;
+
+    @BeforeEach
+    public void initArrays() {
+        array = new ArrayList<>();
+        sorted_array = new ArrayList<>();
+    }
 
     @Test
-    @DisplayName("Sorting already sorted array")
-    void sortSorted() {
-        ArrayList<ComparableUnit> array = new ArrayList<>();
-        ArrayList<ComparableUnit> sorted_array = new ArrayList<>();
+    @DisplayName("Sorting array")
+    void sortArray() {
         for (int i = 0; i < 10; i++) {
-            array.add(new ComparableUnit("CU[" + i + "]", i));
-            sorted_array.add(new ComparableUnit("CU[" + i + "]", i));
+            array.add(new ComparableUnit(i));
         }
+
+        sorted_array.addAll(array);
+        Collections.reverse(sorted_array);
+
         new QuickSort().accept(sorted_array);
+
         assertArrayEquals(array.toArray(), sorted_array.toArray());
     }
+
+//    @Test
+//    @DisplayName("Sorting already sorted array")
+//    void sortSorted() {
+//        for (int i = 0; i < 10; i++) {
+//            array.add(new ComparableUnit(i));
+//            sorted_array.add(new ComparableUnit(i));
+//        }
+//        new QuickSort().accept(sorted_array);
+//        assertArrayEquals(array.toArray(), sorted_array.toArray());
+//    }
 
     @Test
     @DisplayName("Sorting empty sorted array")
     void sortEmpty() {
-        ArrayList<ComparableUnit> array = new ArrayList<>();
-        ArrayList<ComparableUnit> sorted_array = new ArrayList<>();
         new QuickSort().accept(sorted_array);
         assertArrayEquals(array.toArray(), sorted_array.toArray());
     }
@@ -36,13 +60,12 @@ class QuickSortTest {
     @Test
     @DisplayName("Sorting reversed array with duplicates")
     void sort() {
-        ArrayList<ComparableUnit> sorted_array = new ArrayList<>();
         for (int i = 10; i > 0; i--) {
             sorted_array.add(new ComparableUnit("CU[" + i / 2 + "]", i / 2));
         }
         new QuickSort().accept(sorted_array);
 
-        ArrayList<ComparableUnit> array = new ArrayList<>();
+
         array.add(0, new ComparableUnit("CU[0]", 0));
         array.add(1, new ComparableUnit("CU[1]", 1));
         array.add(2, new ComparableUnit("CU[1]", 1));
@@ -60,11 +83,11 @@ class QuickSortTest {
     @Test
     @DisplayName("Sorting array of duplicates")
     void sortDuplicates() {
-        ArrayList<ComparableUnit> sorted_array = new ArrayList<>();
+
         for (int i = 0; i < 10; i++) {
             sorted_array.add(new ComparableUnit("CU[" + 407 + "]", 47));
         }
-        ArrayList<ComparableUnit> array = new ArrayList<>();
+
         array.add(0, new ComparableUnit("CU[407]", 47));
         array.add(1, new ComparableUnit("CU[407]", 47));
         array.add(2, new ComparableUnit("CU[407]", 47));
