@@ -1,6 +1,8 @@
 # Язык XPath
 \- язык запросов к **`элементам XML`**
 
+[Видео-лекция](https://www.youtube.com/watch?v=EVGH_XxAbXQ&list=WL&index=4&ab_channel=%D0%9B%D1%91%D1%88%D0%B0%D0%9C%D0%B0%D1%80%D1%88%D0%B0%D0%BB)
+
 Полный путь XPath (**`/`**):
 + `/html/body/div[7]/div/div[12]/div/div[2]/div[2]/div/div/div[2]/div[3]`
 
