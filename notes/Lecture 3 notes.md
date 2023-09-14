@@ -229,4 +229,4 @@
 
 
 ## Функциональное тестирование
-[статья](https://www.vogella.com/tutorials/Mockito/article.html](https://github.com/VladislavEremeev/QA_bible/blob/master/vidy-metody-urovni-testirovaniya/funkcionalnoe-testirovanie-functional-behavioral-testing.md)https://github.com/VladislavEremeev/QA_bible/blob/master/vidy-metody-urovni-testirovaniya/funkcionalnoe-testirovanie-functional-behavioral-testing.md)
+[статья](https://github.com/VladislavEremeev/QA_bible/blob/master/vidy-metody-urovni-testirovaniya/funkcionalnoe-testirovanie-functional-behavioral-testing.md)
