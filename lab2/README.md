@@ -5,7 +5,7 @@
 
 ## Постановка задачи:
 Провести интеграционное тестирование программы, осуществляющей вычисление системы функций (в соответствии с вариантом).
-  ![Lab 2 Task Function](res/Lab2TaskFunction.png)
+  ![Lab 2 Task Function](https://github.com/KIMdaniiell/Software-Testing-Course/blob/main/res/Lab2TaskFunction.png)
 ```
   x <= 0 : (((((csc(x) * sin(x)) - sec(x)) * sec(x)) ^ 3) ^ 2)
   x > 0 : (((((log_5(x) + ln(x)) * log_2(x)) * ln(x)) * ln(x)) / ln(x))
